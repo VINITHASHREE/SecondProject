@@ -1,0 +1,44 @@
+package com.second.CollaborationBack.model;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+
+
+@RestController
+public class BlogController {
+	
+
+	@Autowired
+	private BlogDAO blogDAO;
+
+	public BlogDAO getBlogDAO() {
+		return blogDAO;
+	}
+
+	public void setBlogDAO(BlogDAO blogDAO) {
+		this.blogDAO = blogDAO;
+	}
+	@GetMapping("/bloglist")
+	public List getCustomers() {
+		return blogDAO.list();
+	}
+	
+	@PostMapping("/bloglist")
+	public ResponseEntity createblog(@RequestBody Blog blog) {
+
+		blogDAO.saveOrUpdate(blog);
+
+		return new ResponseEntity(blog, HttpStatus.OK);
+	}
+	
+
+}
